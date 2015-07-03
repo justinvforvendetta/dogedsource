@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = dogecoindark-qt
-VERSION = 1.0
+VERSION = 0.7.2
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
@@ -164,7 +164,6 @@ HEADERS += src/qt/bitcoingui.h \
     src/kernel.h \
     src/scrypt_mine.h \
     src/pbkdf2.h \
-    src/stealth.cpp \
     src/serialize.h \
     src/strlcpy.h \
     src/main.h \
@@ -173,7 +172,6 @@ HEADERS += src/qt/bitcoingui.h \
     src/db.h \
     src/walletdb.h \
     src/script.h \
-    src/stealth.h \
     src/init.h \
     src/irc.h \
     src/mruset.h \
