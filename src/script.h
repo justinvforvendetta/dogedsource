@@ -18,8 +18,6 @@ typedef std::vector<unsigned char> valtype;
 
 class CTransaction;
 
-static const unsigned int MAX_OP_RETURN_RELAY = 40;      // bytes
-
 /** Signature hash types/flags */
 enum
 {
@@ -38,7 +36,6 @@ enum txnouttype
     TX_PUBKEYHASH,
     TX_SCRIPTHASH,
     TX_MULTISIG,
-	TX_NULL_DATA,
 };
 
 class CNoDestination {
@@ -62,7 +59,6 @@ enum opcodetype
 {
     // push value
     OP_0 = 0x00,
-	OP_SPECIAL = 0x01,
     OP_FALSE = OP_0,
     OP_PUSHDATA1 = 0x4c,
     OP_PUSHDATA2 = 0x4d,
@@ -196,7 +192,6 @@ enum opcodetype
 
 
     // template matching params
-	OP_SMALLDATA = 0xf9,
     OP_SMALLINTEGER = 0xfa,
     OP_PUBKEYS = 0xfb,
     OP_PUBKEYHASH = 0xfd,

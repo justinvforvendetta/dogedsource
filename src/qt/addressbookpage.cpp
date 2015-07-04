@@ -31,7 +31,6 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     ui->newAddressButton->setIcon(QIcon());
     ui->copyToClipboard->setIcon(QIcon());
     ui->deleteButton->setIcon(QIcon());
-	ui->importSXButton->setIcon(QIcon());
 #endif
 
 #ifndef USE_QRCODE
@@ -52,31 +51,13 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     switch(tab)
     {
     case SendingTab:
-        ui->labelExplanation->setText(tr("These are your DogecoinDark addresses for sending payments. Always check the amount and the receiving address before sending coins."));
-        ui->deleteAddress->setVisible(true);
+        ui->labelExplanation->setVisible(false);
+        ui->deleteButton->setVisible(true);
         ui->signMessage->setVisible(false);
-        ui->importStealthAddress->setVisible(false);
-        ui->newStealthAddress->setVisible(false);
-        ui->resetPrivateKeysButton->setVisible(false);
         break;
     case ReceivingTab:
-		ui->labelExplanation->setText(tr("These are your DogecoinDark addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you."));
-        ui->deleteAddress->setVisible(false);
+        ui->deleteButton->setVisible(false);
         ui->signMessage->setVisible(true);
-        ui->importStealthAddress->setVisible(false);
-        ui->newStealthAddress->setVisible(false);
-        ui->resetPrivateKeysButton->setVisible(false);
-		break;
-    case StealthAddressTab:
-        ui->labelExplanation->setText(tr("These are your Monocle addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you."));
-        ui->deleteAddress->setVisible(false);
-        ui->signMessage->setVisible(false);
-        ui->newAddress->setVisible(false);
-        ui->copyAddress->setVisible(false);
-        ui->verifyMessage->setVisible(false);
-        ui->importStealthAddress->setVisible(true);
-        ui->newStealthAddress->setVisible(true);
-        ui->resetPrivateKeysButton->setVisible(true);
         break;
     }
 
@@ -93,23 +74,15 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     contextMenu = new QMenu();
     contextMenu->addAction(copyAddressAction);
     contextMenu->addAction(copyLabelAction);
-	if(tab != StealthAddressTab){
-        contextMenu->addAction(editAction);
-    }
+    contextMenu->addAction(editAction);
     if(tab == SendingTab)
         contextMenu->addAction(deleteAction);
     contextMenu->addSeparator();
-	if(tab == SendingTab)
-		contextMenu->addAction(sendCoinsAction);
-#ifdef USE_QRCODE
-     contextMenu->addAction(showQRCodeAction);
- #endif
-    if(tab == ReceivingTab){
+    contextMenu->addAction(showQRCodeAction);
+    if(tab == ReceivingTab)
         contextMenu->addAction(signMessageAction);
-    }
-	else if(tab == SendingTab){
+    else if(tab == SendingTab)
         contextMenu->addAction(verifyMessageAction);
-	}
 
     // Connect signals for context menu actions
     connect(copyAddressAction, SIGNAL(triggered()), this, SLOT(on_copyToClipboard_clicked()));
@@ -153,11 +126,6 @@ void AddressBookPage::setModel(AddressTableModel *model)
         // Send filter
         proxyModel->setFilterRole(AddressTableModel::TypeRole);
         proxyModel->setFilterFixedString(AddressTableModel::Send);
-        break;
-	case StealthAddressTab:
-        // Stealth filter
-        proxyModel->setFilterRole(AddressTableModel::TypeRole);
-        proxyModel->setFilterFixedString(AddressTableModel::Stealth);
         break;
     }
     ui->tableView->setModel(proxyModel);
@@ -256,29 +224,6 @@ void AddressBookPage::on_newAddressButton_clicked()
         newAddressToSelect = dlg.getAddress();
     }
 }
-void AddressBookPage::on_importStealthAddress_clicked()
-{
-    model->importStealthAddress();
-}
-
-void AddressBookPage::on_resetPrivateKeysButton_clicked()
-{
-    model->resetPrivateKeysStatus();
-}
-
-void AddressBookPage::on_newStealthAddress_clicked()
-{
-    if(!model)
-        return;
-
-    EditAddressDialog dlg(EditAddressDialog::NewStealthAddress, this);
-    dlg.setModel(model);
-    if(dlg.exec())
-    {
-        newAddressToSelect = dlg.getAddress();
-    }
-
-}
 
 void AddressBookPage::on_deleteButton_clicked()
 {
@@ -323,8 +268,6 @@ void AddressBookPage::selectionChanged()
             ui->verifyMessage->setEnabled(false);
             ui->verifyMessage->setVisible(false);
             break;
-		case StealthAddressTab:
-			break;
         }
         ui->copyToClipboard->setEnabled(true);
         ui->showQRCode->setEnabled(true);
