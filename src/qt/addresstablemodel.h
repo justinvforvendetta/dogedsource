@@ -33,11 +33,13 @@ public:
         INVALID_ADDRESS,   /**< Unparseable address */
         DUPLICATE_ADDRESS,  /**< Address already in address book */
         WALLET_UNLOCK_FAILURE, /**< Wallet could not be unlocked to create new receiving address */
-        KEY_GENERATION_FAILURE /**< Generating a new public key for a receiving address failed */
+        KEY_GENERATION_FAILURE,  /**< Generating a new public key for a receiving address failed */
+        INVALID_ACCOUNT_NAME    /**< Generating a new public key for a receiving address failed */
     };
 
     static const QString Send; /**< Specifies send address */
     static const QString Receive; /**< Specifies receive address */
+	static const QString Stealth;   /**< Specifies stealth address */
 
     /** @name Methods overridden from QAbstractTableModel
         @{*/
@@ -66,6 +68,9 @@ public:
     int lookupAddress(const QString &address) const;
 
     EditStatus getEditStatus() const { return editStatus; }
+	
+	void importStealthAddress();
+    void resetPrivateKeysStatus();
 
 private:
     WalletModel *walletModel;
@@ -83,7 +88,7 @@ signals:
 public slots:
     /* Update address list from core.
      */
-    void updateEntry(const QString &address, const QString &label, bool isMine, int status);
+void updateEntry(const QString &address, const QString &label);
 
     friend class AddressTablePriv;
 };

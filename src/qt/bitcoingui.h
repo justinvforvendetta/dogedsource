@@ -95,6 +95,7 @@ private:
     QAction *lockWalletAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
+	QAction *stealthAddressAction;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
@@ -147,7 +148,9 @@ private slots:
     void gotoAddressBookPage();
     /** Switch to receive coins page */
     void gotoReceiveCoinsPage();
-    /** Switch to send coins page */
+    /** Switch to stealth address page */
+    void gotoStealthAddressPage();
+	/** Switch to send coins page */
     void gotoSendCoinsPage();
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */

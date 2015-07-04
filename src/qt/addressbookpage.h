@@ -26,7 +26,8 @@ class AddressBookPage : public QDialog
 public:
     enum Tabs {
         SendingTab = 0,
-        ReceivingTab = 1
+        ReceivingTab = 1,
+		StealthAddressTab = 2
     };
 
     enum Mode {
@@ -73,6 +74,12 @@ private slots:
     void onCopyLabelAction();
     /** Edit currently selected address entry */
     void onEditAction();
+	 /** Imported Stealth Address Transactions */
+    void on_importStealthAddress_clicked();
+    /** New Stealth Address */
+    void on_newStealthAddress_clicked();
+    /** Reset Private Keys Status */
+    void on_resetPrivateKeysButton_clicked();
 
     /** New entry/entries were added to address table */
     void selectNewAddress(const QModelIndex &parent, int begin, int end);

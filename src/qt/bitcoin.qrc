@@ -48,6 +48,7 @@
         <file alias="qrcode">res/icons/qrcode.png</file>
         <file alias="debugwindow">res/icons/debugwindow.png</file>
 		<file alias="qtlogo">res/icons/qtlogo-64.png</file>
+		<file alias="stealth_addressesss">res/icons/stealth.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>

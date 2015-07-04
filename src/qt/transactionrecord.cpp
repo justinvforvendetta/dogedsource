@@ -132,7 +132,9 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 }
                 sub.debit = -nValue;
 
-                parts.append(sub);
+                if(sub.debit != 0){
+                    parts.append(sub);
+                }
             }
         }
         else

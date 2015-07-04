@@ -232,6 +232,13 @@ void BitcoinGUI::createActions()
     addressBookAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
     tabGroup->addAction(addressBookAction);
 	
+	stealthAddressAction = new QAction(QIcon(":/icons/stealth_addresses"), tr("&Stealth Addresses"), this);
+    stealthAddressAction->setStatusTip(tr("Show the list of stealth addresses for receiving payments"));
+    stealthAddressAction->setToolTip(stealthAddressAction->statusTip());
+    stealthAddressAction->setCheckable(true);
+    stealthAddressAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+    tabGroup->addAction(stealthAddressAction);
+	
 	blockAction = new QAction(QIcon(":/icons/block"), tr("&Block Explorer"), this);
     blockAction->setToolTip(tr("Explore the BlockChain"));
     blockAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
@@ -249,6 +256,8 @@ void BitcoinGUI::createActions()
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
     connect(addressBookAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(addressBookAction, SIGNAL(triggered()), this, SLOT(gotoAddressBookPage()));
+	connect(stealthAddressAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(stealthAddressAction, SIGNAL(triggered()), this, SLOT(gotoStealthAddressPage()));
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("E&xit"), this);
     quitAction->setToolTip(tr("Quit application"));
@@ -343,6 +352,7 @@ void BitcoinGUI::createToolBars()
     toolbar->addAction(overviewAction);
     toolbar->addAction(sendCoinsAction);
     toolbar->addAction(receiveCoinsAction);
+	toolbar->addAction(stealthAddressAction);
     toolbar->addAction(historyAction);
     toolbar->addAction(addressBookAction);
 	toolbar->addAction(blockAction);
@@ -413,6 +423,7 @@ void BitcoinGUI::setWalletModel(WalletModel *walletModel)
         receiveCoinsPage->setModel(walletModel->getAddressTableModel());
         sendCoinsPage->setModel(walletModel);
         signVerifyMessageDialog->setModel(walletModel);
+		stealthAddressAction->setModel(walletModel);
 
 		blockBrowser->setModel(clientModel);
         setEncryptionStatus(walletModel->getEncryptionStatus());
@@ -755,6 +766,11 @@ void BitcoinGUI::gotoReceiveCoinsPage()
     exportAction->setEnabled(true);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
     connect(exportAction, SIGNAL(triggered()), receiveCoinsPage, SLOT(exportClicked()));
+}
+
+void BitcoinGUI::gotoStealthAddressPage()
+{
+    if (walletFrame) walletFrame->gotoStealthAddressPage();
 }
 
 void BitcoinGUI::gotoSendCoinsPage()

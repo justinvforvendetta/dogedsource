@@ -26,13 +26,15 @@ LIBS= \
  -l boost_program_options-mt-s \
  -l boost_thread_win32-mt-s \
  -l boost_chrono-mt-s \
+ -l boost_random-mt-s \
  -l db_cxx \
  -l ssl \
- -l crypto
+ -l crypto \
+ -l secp256k1
 
 DEFS=-D_MT -DWIN32 -D_WINDOWS -DBOOST_THREAD_USE_LIB -DBOOST_SPIRIT_THREADSAFE
 DEBUGFLAGS=-g
-CFLAGS=-O2 -msse2 -w -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter $(DEBUGFLAGS) $(DEFS) $(INCLUDEPATHS)
+CFLAGS=-O2 -msse2 -std=c++0x -w -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter $(DEBUGFLAGS) $(DEFS) $(INCLUDEPATHS)
 LDFLAGS=-Wl,--dynamicbase -Wl,--nxcompat
 
 TESTDEFS = -DTEST_DATA_DIR=$(abspath test/data)
@@ -80,6 +82,7 @@ OBJS= \
     obj/script.o \
     obj/sync.o \
     obj/util.o \
+	obj/stealth.o \
     obj/wallet.o \
     obj/walletdb.o \
     obj/noui.o \
